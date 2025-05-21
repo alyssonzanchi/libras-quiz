@@ -1,9 +1,25 @@
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginRegister from '@/pages/LoginRegister';
+import HomePage from '@/pages/Home';
+import { AuthProvider } from '@/context/AuthContext';
+import { ProtectedRoute } from '@/routes/ProtectedRoute';
+
+export default function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello World!</h1>
-    </>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginRegister />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
-
-export default App;
