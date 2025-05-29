@@ -12,6 +12,7 @@ export default function LoginRegister() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [tab, setTab] = useState<'login' | 'register'>('login');
 
@@ -41,24 +42,32 @@ export default function LoginRegister() {
     });
 
     if (error) {
-      setErrorMessage(
-        'Erro ao cadastrar. Verifique os dados e tente novamente.'
-      );
+      console.error('Erro ao registrar:', error.message);
+      setErrorMessage(error.message);
       return;
     }
 
     const userId = data.user?.id;
     if (userId) {
-      await supabase.from('profiles').insert([
+      const defaultAvatarUrl =
+        'https://<your-project-ref>.supabase.co/storage/v1/object/public/avatars/avatar.png';
+      const { error: insertError } = await supabase.from('users').insert([
         {
           id: userId,
-          name,
-          points: 0
+          name: name.trim(),
+          email,
+          total_score: 0,
+          current_trail: null,
+          avatar: defaultAvatarUrl
         }
       ]);
-    }
 
-    navigate('/home');
+      if (insertError) {
+        console.error('Erro ao salvar usuário:', insertError.message);
+        setErrorMessage('Erro ao salvar seus dados. Tente novamente.');
+        return;
+      }
+    }
   };
 
   return (
@@ -144,6 +153,13 @@ export default function LoginRegister() {
                 }}
                 className="space-y-4"
               >
+                <Input
+                  type="text"
+                  placeholder="Nome"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
                 <Input
                   type="email"
                   placeholder="Email"

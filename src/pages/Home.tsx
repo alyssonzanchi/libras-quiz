@@ -16,27 +16,27 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
-  const [points, setPoints] = useState(0);
+  const [totalScore, setTotalScore] = useState(0);
   const [trails, setTrails] = useState<Trail[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
       if (!user) return;
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('name, points')
+      const { data } = await supabase
+        .from('users')
+        .select('name, total_score')
         .eq('id', user.id)
         .single();
 
       if (data) {
         setName(data.name);
-        setPoints(data.points);
+        setTotalScore(data.total_score);
       }
     };
 
     const fetchTrails = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('trails')
         .select('id, title, description');
       if (data) {
@@ -55,7 +55,7 @@ export default function HomePage() {
           Olá, {name} 👋
         </h1>
         <p className="text-lg text-gray-600 mb-6">
-          Você tem <span className="font-semibold">{points}</span> pontos
+          Você tem <span className="font-semibold">{totalScore}</span> pontos
           acumulados.
         </p>
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
