@@ -154,9 +154,6 @@ export function ChallengePage() {
   }, [finished, profile?.id, challengeId, progressSaved]);
 
   if (finished) {
-    const percentage = Math.round((score / questions.length) * 10);
-    const passed = percentage >= 70;
-
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
         <h2 className="text-3xl font-bold mb-4">Desafio Concluído!</h2>
