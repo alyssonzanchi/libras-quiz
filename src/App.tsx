@@ -3,6 +3,7 @@ import LoginRegister from '@/pages/LoginRegister';
 import HomePage from '@/pages/Home';
 import { AuthProvider } from '@/context/AuthContext';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
+import { ChallengePage } from '@/pages/ChallengePage';
 
 export default function App() {
   return (
@@ -15,6 +16,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trail/:id"
+            element={
+              <ProtectedRoute>
+                <ChallengePage />
               </ProtectedRoute>
             }
           />

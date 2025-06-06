@@ -57,7 +57,7 @@ export default function LoginRegister() {
           name: name.trim(),
           email,
           total_score: 0,
-          current_trail: null,
+          current_challenge: null,
           avatar: defaultAvatarUrl
         }
       ]);
