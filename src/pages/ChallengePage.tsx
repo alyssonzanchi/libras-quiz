@@ -65,9 +65,10 @@ export function ChallengePage() {
 
   const handleAnswer = (option: string) => {
     const question = questions[current];
+    const normalizedTitle = challengeTitle.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const correctAnswer = question.image
       ? question.word // quando pergunta é imagem
-      : `/alphabet/${question.word.toLowerCase()}.png`; // quando pergunta é letra
+      : `/${normalizedTitle}/${question.word.toLowerCase()}.png`; // quando pergunta é letra
 
     const correct = option === correctAnswer;
 
